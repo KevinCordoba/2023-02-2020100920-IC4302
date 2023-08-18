@@ -1,0 +1,6 @@
+namesspaces:
+- app
+- elastic
+- mongo
+- mysql
+- monitoring
