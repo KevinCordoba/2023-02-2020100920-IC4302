@@ -13,6 +13,9 @@
 
   El objetivo principal de esta tarea corta del curso es desarrollar un sistema de observabilidad que genere métricas y gráficas para extraer información de las bases de datos, a través de kubernetes con Helm charts de Bitnami configurados para las herramientas. Entre las herramientas que hemos instalado se encuentran Prometheus para la exportación de métricas, Grafana para la graficación de los datos y Gatling para la generación de pruebas de carga en las bases de datos.
 
+  Para el sistema de observabilidad que se pide en la tarea, se debieron crear e instalar el chart _app_ para la aplicación intermedia que va a conectarse con Gatling y las bases de datos, el chart _bootstrap_ para los _namespaces_, se instalo también el monitoring-stack para realizar el monitoreo con _prometheus_ y _grafana, databases_ para realizar el _deployement_ de los motores de bases de datos proporcionados por bitnami y por último se tiene al chart grafana-config que se encarga de automatizar la configuración de los _dashboards_ que se van a graficar.
+
+
 # 2. Guía de instalación y uso:
 
 Primero, se debe abrir la carpeta de la tarea en un editor de texto como Visual Studio Code.
@@ -55,6 +58,16 @@ Al iniciar sesión se muestran los dashboards de las bases de datos que se encue
 
 # 3. Configuración de las herramientas:
 
+La configuración de la aplicación intermedia fue realizada a traves de python, y una imágen de docker con el archivo Dockerfile configurado de la siguiente manera:
+
+![](https://hackmd.io/_uploads/r1dX5dYC2.png)
+
+
+Este API además importo las libreria del framework de flask y el de prometheus_client para la exportación de métricas de solicitudes http. El programa en python se muestra a continuación:
+
+![](https://hackmd.io/_uploads/rJIVqOYAn.png)
+
+
 Para la instalación de prometheus y el grafana operator, se llevó a cabo una configuración a través del Helm chart monitoring-stack, en el cual se realizaba un _pull_ del repositorio con la imagen proporcionada por bitnami. En el archivo Chart.yaml del monitoring-stack chart se definieron los siguientes parámetros que se pueden observar a continuación:
 
 ![](https://hackmd.io/_uploads/Sk5kIOtC3.png)
@@ -83,6 +96,16 @@ Los dashboards de grafana para las bases de datos se configuraron en el Helm cha
 
   El dataset seleccionado para utilizar en este trabajo sobre observabilidad fue acerca de *E-commerce Data*, el cual contiene transacciones reales de minoristas en el Reino Unido. Dicho dataset cuenta con los siguientes campos: número de recibo, código de *stock*, Descripción, cantidad, fecha del recibo, precio de unidad, id del cliente y país.
   Dicho dataset se obtuvo de la plataforma digital Kaggle, en la siguiente dirección: https://www.kaggle.com/datasets/carrie1/ecommerce-data
+  
+  Para la realización de la simulación con Gatling usando este dataset, se debio configurar un programa en scala que debía leer el archivo y definiera los parametros de la simulación con los usuarios y un intervalo específico como se puede apreciar a continuación en la imágen del código:
+  
+  ![](https://hackmd.io/_uploads/rkZvMtFC3.png)
+
  
 # 5. Conclusiones y recomendaciones:
 
+  Con base en lo mencionado anteriormente es posible apreciar la utilidad que otorga la observabilidad en sistemas, con el uso de las herramientas adecuadas permite la extracción de la información contenida en una base de datos para tranformarla en gráficas gracias a las métricas generadas, lo que permite una mayor y mejor comprensión del comportamiento de los mismos. 
+  Como parte de las herramientas previamente mencionadas cabe resaltar la utilidad de Prometheus que permite exportar las métricas, Grafana que ayuda a utilizarlas para poder graficar los datos y Gatling que permite la generación de pruebas de carga en las bases de datos indicadas.
+  Se llevó a cabo la configuración de motores de bases de datos que permiten este proceso junto con la configuración de un sistema de monitoereo utilizando Prometheus y Grafana.
+  
+  Como recomendaciones se insta a utilizar datasets con gran volumen de datos para así contar con mayor cantidad de informaación con la que puede trabajar el sistema, creando gráficas más certeras que proporcionen mayor información de modo que se puedan obtener conclusiones más acertadas de ellas e información que permita predecir comportamientos futuros.
